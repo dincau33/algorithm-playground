@@ -39,7 +39,7 @@ public class WeightedQuickUnionPathCompression {
 	public void union(int p, int q) {
 		int rootp = find(p);
 		int rootq = find(q);
-		// Attached the smaller component to the larger component
+		// Link the smaller component to the larger component
 		if (size[rootp] > size[rootq]) {
 			id[rootq] = rootp;
 			size[rootp] += size[rootq];

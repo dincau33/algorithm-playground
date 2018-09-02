@@ -1,11 +1,11 @@
 # Algorithm Playground
 
 Coursera Algorithm I / II are excellent introduction to elementary data structures and algorithms.
-In this repository I validate my understanding by reimplementing the most common algorithms from scratch.
+In this repository I reimplement the most common algorithms from scratch to validate my understanding of the courses.
 
 This repository contains:
-* The unit tests I used to validate whether algorithms implementation are correct or not.
-Be mindful the tests does not cover time and space complexity assessment but only correctness.
+* The unit tests I use to assert whether my algorithms implementation are correct or not.
+Be mindful the tests do not cover time and space complexity assertion but only correctness.
 * My solution to common problems where the knowledge of common data structures and algorithms introduced in the course is useful.
 
 # How to build
