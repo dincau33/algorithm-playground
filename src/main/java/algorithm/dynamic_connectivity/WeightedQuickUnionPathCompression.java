@@ -10,7 +10,7 @@ public class WeightedQuickUnionPathCompression {
 	// = 4bytes + (N * 4bytes + 24bytes) + (N * 1byte + 24bytes)
 	// 24 bytes = (Array length 8bytes + Reference to Object class 8bytes + GC flags 8bytes)
 	private int[] id;
-	private int count;
+	private int count; //number of components
 	private byte[] size;
 
 	// Time complexity: O(N)
@@ -25,9 +25,14 @@ public class WeightedQuickUnionPathCompression {
 		}
 	}
 
+	private void validate(int p) {
+		int N = id.length;
+		if (p < 0 || p >= N) throw new IllegalArgumentException();
+	}
+
 	// Time complexity: O(log N*) better than log N overtime because of the path compression
 	public int find(int p) {
-		if (p < 0 || p >= count) throw new IllegalArgumentException();
+		validate(p);
 		while (id[p] != p) {
 			id[p] = id[id[p]]; // path compression by halving
 			p = id[p];
@@ -37,23 +42,27 @@ public class WeightedQuickUnionPathCompression {
 
 	// Time complexity: O(log N*)
 	public void union(int p, int q) {
-		int rootp = find(p);
-		int rootq = find(q);
-		// Link the smaller component to the larger component
-		if (size[rootp] > size[rootq]) {
-			id[rootq] = rootp;
-			size[rootp] += size[rootq];
-		} else {
-			id[rootp] = rootq;
-			size[rootq] += size[rootp];
+		validate(p);
+		validate(q);
+		if (!connected(p, q)) {
+			int rootp = find(p);
+			int rootq = find(q);
+			// Link the smaller component to the larger component
+			if (size[rootp] > size[rootq]) {
+				id[rootq] = rootp;
+				size[rootp] += size[rootq];
+			} else {
+				id[rootp] = rootq;
+				size[rootq] += size[rootp];
+			}
+			count--;
 		}
-
 	}
 
 	// Time complexity: O(log N*)
 	public boolean connected(int p, int q) {
-		if (p < 0 || p >= count) throw new IllegalArgumentException();
-		if (q < 0 || q >= count) throw new IllegalArgumentException();
+		validate(p);
+		validate(q);
 		return find(p) == find(q);
 	}
 

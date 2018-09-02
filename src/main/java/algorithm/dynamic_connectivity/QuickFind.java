@@ -9,7 +9,7 @@ public class QuickFind {
 	// Space complexity: count (int) + id (int[]) = 4bytes + N * 4bytes + 24bytes
 	// 24 bytes = (Array length 8bytes + Reference to Object class 8bytes + GC flags 8bytes)
 	private int[] id;
-	private int count;
+	private int count; //number of components
 
 	// Time complexity: O(N)
 	public QuickFind(int N) {
@@ -19,25 +19,35 @@ public class QuickFind {
 		for (int i = 0; i < N; i++) id[i] = i;
 	}
 
+	private void validate(int p) {
+		int N = id.length;
+		if (p < 0 || p >= N) throw new IllegalArgumentException();
+	}
+
 	// Time complexity: O(1)
 	public int find(int p) {
-		if (p < 0 || p >= count) throw new IllegalArgumentException();
+		validate(p);
 		return id[p];
 	}
 
 	// Time complexity: O(N)
 	public void union(int p, int q) {
-		int pid = find(p);
-		int qid = find(q);
-		for (int i = 0; i < count; i++) {
-			if (id[i] == qid) id[i] = pid;
+		validate(p);
+		validate(q);
+		if (!connected(p, q)) {
+			int pid = find(p);
+			int qid = find(q);
+			for (int i = 0; i < id.length; i++) {
+				if (id[i] == qid) id[i] = pid;
+			}
+			count--;
 		}
 	}
 
 	// Time complexity: O(1)
 	public boolean connected(int p, int q) {
-		if (p < 0 || p >= count) throw new IllegalArgumentException();
-		if (q < 0 || q >= count) throw new IllegalArgumentException();
+		validate(p);
+		validate(q);
 		return id[p] == id[q];
 	}
 

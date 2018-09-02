@@ -62,6 +62,16 @@ class QuickFindTest {
 		QuickFind qf = new QuickFind(2);
 		qf.union(0,1);
 		assertThat(qf.connected(0,1)).isTrue();
+		assertThat(qf.count()).isEqualTo(1);
+	}
+
+	@Test
+	void union2NodesAlreadyConnectedHasNoSideEffect() {
+		QuickFind qf = new QuickFind(2);
+		qf.union(0, 1);
+		qf.union(0, 1);
+		assertThat(qf.connected(0, 1)).isTrue();
+		assertThat(qf.count()).isEqualTo(1);
 	}
 
 	@Test

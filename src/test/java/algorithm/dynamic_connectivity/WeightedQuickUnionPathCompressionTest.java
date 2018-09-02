@@ -62,6 +62,16 @@ class WeightedQuickUnionPathCompressionTest {
 		WeightedQuickUnionPathCompression qu = new WeightedQuickUnionPathCompression(2);
 		qu.union(0,1);
 		assertThat(qu.connected(0,1)).isTrue();
+		assertThat(qu.count()).isEqualTo(1);
+	}
+
+	@Test
+	void union2NodesAlreadyConnectedHasNoSideEffect() {
+		WeightedQuickUnionPathCompression qu = new WeightedQuickUnionPathCompression(2);
+		qu.union(0, 1);
+		qu.union(0, 1);
+		assertThat(qu.connected(0, 1)).isTrue();
+		assertThat(qu.count()).isEqualTo(1);
 	}
 
 	@Test

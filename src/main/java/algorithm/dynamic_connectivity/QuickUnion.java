@@ -9,7 +9,7 @@ public class QuickUnion {
 	// Space complexity: count (int) + id (int[]) = 4bytes + N * 4bytes + 24bytes
 	// 24 bytes = (Array length 8bytes + Reference to Object class 8bytes + GC flags 8bytes)
 	private int[] id;
-	private int count;
+	private int count; //number of components
 
 	// Time complexity: O(N)
 	public QuickUnion(int N) {
@@ -19,24 +19,34 @@ public class QuickUnion {
 		for (int i = 0; i < N; i++) id[i] = i;
 	}
 
+	private void validate(int p) {
+		int N = id.length;
+		if (p < 0 || p >= N) throw new IllegalArgumentException();
+	}
+
 	// Time complexity: O(tree height)
 	public int find(int p) {
-		if (p < 0 || p >= count) throw new IllegalArgumentException();
+		validate(p);
 		while (id[p] != p) p = id[p];
 		return p;
 	}
 
 	// Time complexity: O(tree height)
 	public void union(int p, int q) {
-		int rootp = find(p);
-		int rootq = find(q);
-		id[rootq] = rootp;
+		validate(p);
+		validate(q);
+		if (!connected(p, q)) {
+			int rootp = find(p);
+			int rootq = find(q);
+			id[rootq] = rootp;
+			count--;
+		}
 	}
 
 	// Time complexity: O(tree height)
 	public boolean connected(int p, int q) {
-		if (p < 0 || p >= count) throw new IllegalArgumentException();
-		if (q < 0 || q >= count) throw new IllegalArgumentException();
+		validate(p);
+		validate(q);
 		return find(p) == find(q);
 	}
 

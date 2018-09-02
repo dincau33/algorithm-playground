@@ -62,6 +62,16 @@ class QuickUnionTest {
 		QuickUnion qu = new QuickUnion(2);
 		qu.union(0,1);
 		assertThat(qu.connected(0,1)).isTrue();
+		assertThat(qu.count()).isEqualTo(1);
+	}
+
+	@Test
+	void union2NodesAlreadyConnectedHasNoSideEffect() {
+		QuickUnion qu = new QuickUnion(2);
+		qu.union(0, 1);
+		qu.union(0, 1);
+		assertThat(qu.connected(0, 1)).isTrue();
+		assertThat(qu.count()).isEqualTo(1);
 	}
 
 	@Test

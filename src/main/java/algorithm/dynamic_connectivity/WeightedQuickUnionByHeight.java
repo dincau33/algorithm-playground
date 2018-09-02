@@ -10,7 +10,7 @@ public class WeightedQuickUnionByHeight {
 	// = 4bytes + (N * 4bytes + 24bytes) + (N * 1byte + 24bytes)
 	// 24 bytes = (Array length 8bytes + Reference to Object class 8bytes + GC flags 8bytes)
 	private int[] id;
-	private int count;
+	private int count; //number of components
 	private byte[] height;
 
 	// Time complexity: O(N)
@@ -25,10 +25,14 @@ public class WeightedQuickUnionByHeight {
 		}
 	}
 
+	private void validate(int p) {
+		int N = id.length;
+		if (p < 0 || p >= N) throw new IllegalArgumentException();
+	}
 
 	// Time complexity: O(log N)
 	public int find(int p) {
-		if (p < 0 || p >= count) throw new IllegalArgumentException();
+		validate(p);
 		while (id[p] != p) {
 			p = id[p];
 		}
@@ -37,27 +41,33 @@ public class WeightedQuickUnionByHeight {
 
 	// Time complexity: O(log N)
 	public void union(int p, int q) {
-		int rootp = find(p);
-		int rootq = find(q);
-		// Increase height of root only when linking 2 components of same height
-		if (height[rootp] == height[rootq]) {
-			id[rootq] = rootp;
-			height[rootp]++;
-		} else {
-			// Link the smaller component to the taller component
-			if (height[rootp] > height[rootq]) {
-				id[rootq] = rootp;
+		validate(p);
+		validate(q);
 
+		if(!connected(p,q)) {
+			int rootp = find(p);
+			int rootq = find(q);
+
+			// Increase height of root only when linking 2 components of same height
+			if (height[rootp] == height[rootq]) {
+				id[rootq] = rootp;
+				height[rootp]++;
 			} else {
-				id[rootp] = rootq;
+				// Link the smaller component to the taller component
+				if (height[rootp] > height[rootq]) {
+					id[rootq] = rootp;
+				} else {
+					id[rootp] = rootq;
+				}
 			}
+			count--;
 		}
 	}
 
 	// Time complexity: O(log N)
 	public boolean connected(int p, int q) {
-		if (p < 0 || p >= count) throw new IllegalArgumentException();
-		if (q < 0 || q >= count) throw new IllegalArgumentException();
+		validate(p);
+		validate(q);
 		return find(p) == find(q);
 	}
 

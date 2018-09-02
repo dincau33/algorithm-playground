@@ -22,7 +22,7 @@ class WeightedQuickUnionByHeightTest {
 		while (sc.hasNextLine()) {
 			int p = sc.nextInt();
 			int q = sc.nextInt();
-			qu.union(p,q);
+			qu.union(p, q);
 		}
 
 		return qu;
@@ -60,43 +60,53 @@ class WeightedQuickUnionByHeightTest {
 	@Test
 	void nodesAreConnectedIfPartOfSameComponent() {
 		WeightedQuickUnionByHeight qu = new WeightedQuickUnionByHeight(2);
-		qu.union(0,1);
-		assertThat(qu.connected(0,1)).isTrue();
+		qu.union(0, 1);
+		assertThat(qu.connected(0, 1)).isTrue();
+		assertThat(qu.count()).isEqualTo(1);
+	}
+
+	@Test
+	void union2NodesAlreadyConnectedHasNoSideEffect() {
+		WeightedQuickUnionByHeight qu = new WeightedQuickUnionByHeight(2);
+		qu.union(0, 1);
+		qu.union(0, 1);
+		assertThat(qu.connected(0, 1)).isTrue();
+		assertThat(qu.count()).isEqualTo(1);
 	}
 
 	@Test
 	void nodesAreNotConnectIfNotPartOfSameComponent() {
 		WeightedQuickUnionByHeight qu = new WeightedQuickUnionByHeight(3);
-		qu.union(0,1);
-		assertThat(qu.connected(0,2)).isFalse();
-		assertThat(qu.connected(1,2)).isFalse();
+		qu.union(0, 1);
+		assertThat(qu.connected(0, 2)).isFalse();
+		assertThat(qu.connected(1, 2)).isFalse();
 	}
 
 	@Test
-	void union2ComponentsWithMultipleNodes(){
+	void union2ComponentsWithMultipleNodes() {
 		WeightedQuickUnionByHeight qu = new WeightedQuickUnionByHeight(7);
-		qu.union(0,1);
-		qu.union(1,2);
-		qu.union(3,4);
-		qu.union(4,6);
-		qu.union(0,6);
-		assertThat(qu.connected(0,3)).isTrue();
-		assertThat(qu.connected(0,5)).isFalse();
+		qu.union(0, 1);
+		qu.union(1, 2);
+		qu.union(3, 4);
+		qu.union(4, 6);
+		qu.union(0, 6);
+		assertThat(qu.connected(0, 3)).isTrue();
+		assertThat(qu.connected(0, 5)).isFalse();
 	}
 
 	@Test
 	void unionFindBasedTinyUFFile() throws FileNotFoundException {
 		File tinyUF = new File(FILE_PATH_FOLDER + "/tinyUF.txt");
 		WeightedQuickUnionByHeight qu = createWeightedQuickUnionFromFile(tinyUF);
-		assertThat(qu.connected(1,7)).isTrue();
-		assertThat(qu.connected(0,9)).isFalse();
+		assertThat(qu.connected(1, 7)).isTrue();
+		assertThat(qu.connected(0, 9)).isFalse();
 	}
 
 	@Test
 	void unionFindBasedMediumUFFile() throws FileNotFoundException {
 		File mediumUF = new File(FILE_PATH_FOLDER + "/mediumUF.txt");
 		WeightedQuickUnionByHeight qu = createWeightedQuickUnionFromFile(mediumUF);
-		assertThat(qu.connected(486,511)).isTrue();
-		assertThat(qu.connected(0,9)).isFalse();
+		assertThat(qu.connected(486, 511)).isTrue();
+		assertThat(qu.connected(0, 9)).isFalse();
 	}
 }
