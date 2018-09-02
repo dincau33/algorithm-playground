@@ -25,14 +25,14 @@ public class WeightedQuickUnion {
 		}
 	}
 
-	// Time complexity: O(N)
+	// Time complexity: O(log N)
 	public int find(int p) {
 		if (p < 0 || p >= count) throw new IllegalArgumentException();
 		while (id[p] != p) p = id[p];
 		return p;
 	}
 
-	// Time complexity: O(N)
+	// Time complexity: O(log N)
 	public void union(int p, int q) {
 		int rootp = find(p);
 		int rootq = find(q);
@@ -46,7 +46,7 @@ public class WeightedQuickUnion {
 
 	}
 
-	// Time complexity: O(N)
+	// Time complexity: O(log N)
 	public boolean connected(int p, int q) {
 		if (p < 0 || p >= count) throw new IllegalArgumentException();
 		if (q < 0 || q >= count) throw new IllegalArgumentException();

@@ -19,21 +19,21 @@ public class QuickUnion {
 		for (int i = 0; i < N; i++) id[i] = i;
 	}
 
-	// Time complexity: O(N)
+	// Time complexity: O(tree height)
 	public int find(int p) {
 		if (p < 0 || p >= count) throw new IllegalArgumentException();
 		while (id[p] != p) p = id[p];
 		return p;
 	}
 
-	// Time complexity: O(N)
+	// Time complexity: O(tree height)
 	public void union(int p, int q) {
 		int rootp = find(p);
 		int rootq = find(q);
 		id[rootq] = rootp;
 	}
 
-	// Time complexity: O(N)
+	// Time complexity: O(tree height)
 	public boolean connected(int p, int q) {
 		if (p < 0 || p >= count) throw new IllegalArgumentException();
 		if (q < 0 || q >= count) throw new IllegalArgumentException();
