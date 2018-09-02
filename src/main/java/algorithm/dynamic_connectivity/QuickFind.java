@@ -11,18 +11,39 @@ public class QuickFind {
 	private int[] id;
 	private int count;
 
+	// Time complexity: O(N)
 	public QuickFind(int N) {
-
+		if (N < 0) throw new IllegalArgumentException();
+		count = N;
+		id = new int[N];
+		for (int i = 0; i < N; i++) {
+			id[i] = i;
+		}
 	}
 
+	// Time complexity: O(1)
+	public int find(int p) {
+		if (p < 0 || p >= count) throw new IllegalArgumentException();
+		return id[p];
+	}
+
+	// Time complexity: O(N)
 	public void union(int p, int q) {
-
+		int pid = find(p);
+		int qid = find(q);
+		for (int i = 0; i < count; i++) {
+			if (id[i] == qid) id[i] = pid;
+		}
 	}
 
+	// Time complexity: O(1)
 	public boolean connected(int p, int q) {
-		return false;
+		if (p < 0 || p >= count) throw new IllegalArgumentException();
+		if (q < 0 || q >= count) throw new IllegalArgumentException();
+		return id[p] == id[q];
 	}
 
+	// Time complexity: O(1)
 	public int count() {
 		return count;
 	}
