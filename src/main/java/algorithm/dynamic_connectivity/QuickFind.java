@@ -7,7 +7,7 @@ public class QuickFind {
 	// id[i] represents the component identifier the node is part of
 	// id[i] = i if the node is not connected to any other node.
 	// Space complexity: count (int) + id (int[]) = 4bytes + N * 4bytes + 24bytes
-	// (Array length 8bytes + Reference to Object class 8bytes + GC flags 8bytes)
+	// 24 bytes = (Array length 8bytes + Reference to Object class 8bytes + GC flags 8bytes)
 	private int[] id;
 	private int count;
 
@@ -16,9 +16,7 @@ public class QuickFind {
 		if (N < 0) throw new IllegalArgumentException();
 		count = N;
 		id = new int[N];
-		for (int i = 0; i < N; i++) {
-			id[i] = i;
-		}
+		for (int i = 0; i < N; i++) id[i] = i;
 	}
 
 	// Time complexity: O(1)
