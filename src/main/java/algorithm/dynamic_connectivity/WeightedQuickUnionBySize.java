@@ -1,7 +1,7 @@
 package algorithm.dynamic_connectivity;
 
 // Problem: Find whether 2 nodes are connected. It is not required to know the path connecting the 2 nodes.
-public class WeightedQuickUnion {
+public class WeightedQuickUnionBySize {
 
 	// 2 nodes are part of the same component if they have the same root
 	// id[i] represents the parent of node i
@@ -14,7 +14,7 @@ public class WeightedQuickUnion {
 	private byte[] size;
 
 	// Time complexity: O(N)
-	public WeightedQuickUnion(int N) {
+	public WeightedQuickUnionBySize(int N) {
 		if (N < 0) throw new IllegalArgumentException();
 		count = N;
 		id = new int[N];
@@ -36,6 +36,7 @@ public class WeightedQuickUnion {
 	public void union(int p, int q) {
 		int rootp = find(p);
 		int rootq = find(q);
+
 		if (size[rootp] > size[rootq]) {
 			id[rootq] = rootp;
 			size[rootp] += size[rootq];

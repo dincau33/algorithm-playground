@@ -9,15 +9,15 @@ import java.util.Scanner;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-class WeightedQuickUnionPathCompressionTest {
+class WeightedWeightedQuickUnionBySizeTest {
 
 	private static final String FILE_PATH_FOLDER = "./src/test/resources/algorithm/dynamic_connectivity/";
 
-	static WeightedQuickUnionPathCompression createWeightedQuickUnionFromFile(File file) throws FileNotFoundException {
+	static WeightedQuickUnionBySize createWeightedQuickUnionFromFile(File file) throws FileNotFoundException {
 		Scanner sc = new Scanner(file);
 		int N = sc.nextInt();
 
-		WeightedQuickUnionPathCompression qu = new WeightedQuickUnionPathCompression(N);
+		WeightedQuickUnionBySize qu = new WeightedQuickUnionBySize(N);
 
 		while (sc.hasNextLine()) {
 			int p = sc.nextInt();
@@ -30,18 +30,18 @@ class WeightedQuickUnionPathCompressionTest {
 
 	@Test
 	void emptyUnionFindCountIs0() {
-		WeightedQuickUnionPathCompression qu = new WeightedQuickUnionPathCompression(0);
+		WeightedQuickUnionBySize qu = new WeightedQuickUnionBySize(0);
 		assertThat(qu.count()).isEqualTo(0);
 	}
 
 	@Test
 	void cannotInitializeWeightedQuickUnionIfNegativeN() {
-		assertThrows(IllegalArgumentException.class, () -> new WeightedQuickUnionPathCompression(-1));
+		assertThrows(IllegalArgumentException.class, () -> new WeightedQuickUnionBySize(-1));
 	}
 
 	@Test
 	void cannotUnionNodeOutOfBound() {
-		WeightedQuickUnionPathCompression qu = new WeightedQuickUnionPathCompression(3);
+		WeightedQuickUnionBySize qu = new WeightedQuickUnionBySize(3);
 		assertThrows(IllegalArgumentException.class, () -> qu.union(0, -1));
 		assertThrows(IllegalArgumentException.class, () -> qu.union(-1, 1));
 		assertThrows(IllegalArgumentException.class, () -> qu.union(3, 1));
@@ -50,7 +50,7 @@ class WeightedQuickUnionPathCompressionTest {
 
 	@Test
 	void cannotAssessConnectivityOfNodeOutOfBound() {
-		WeightedQuickUnionPathCompression qu = new WeightedQuickUnionPathCompression(3);
+		WeightedQuickUnionBySize qu = new WeightedQuickUnionBySize(3);
 		assertThrows(IllegalArgumentException.class, () -> qu.connected(0, -1));
 		assertThrows(IllegalArgumentException.class, () -> qu.connected(-1, 1));
 		assertThrows(IllegalArgumentException.class, () -> qu.connected(3, 1));
@@ -59,14 +59,14 @@ class WeightedQuickUnionPathCompressionTest {
 
 	@Test
 	void nodesAreConnectedIfPartOfSameComponent() {
-		WeightedQuickUnionPathCompression qu = new WeightedQuickUnionPathCompression(2);
+		WeightedQuickUnionBySize qu = new WeightedQuickUnionBySize(2);
 		qu.union(0,1);
 		assertThat(qu.connected(0,1)).isTrue();
 	}
 
 	@Test
 	void nodesAreNotConnectIfNotPartOfSameComponent() {
-		WeightedQuickUnionPathCompression qu = new WeightedQuickUnionPathCompression(3);
+		WeightedQuickUnionBySize qu = new WeightedQuickUnionBySize(3);
 		qu.union(0,1);
 		assertThat(qu.connected(0,2)).isFalse();
 		assertThat(qu.connected(1,2)).isFalse();
@@ -74,7 +74,7 @@ class WeightedQuickUnionPathCompressionTest {
 
 	@Test
 	void union2ComponentsWithMultipleNodes(){
-		WeightedQuickUnionPathCompression qu = new WeightedQuickUnionPathCompression(7);
+		WeightedQuickUnionBySize qu = new WeightedQuickUnionBySize(7);
 		qu.union(0,1);
 		qu.union(1,2);
 		qu.union(3,4);
@@ -87,7 +87,7 @@ class WeightedQuickUnionPathCompressionTest {
 	@Test
 	void unionFindBasedTinyUFFile() throws FileNotFoundException {
 		File tinyUF = new File(FILE_PATH_FOLDER + "/tinyUF.txt");
-		WeightedQuickUnionPathCompression qu = createWeightedQuickUnionFromFile(tinyUF);
+		WeightedQuickUnionBySize qu = createWeightedQuickUnionFromFile(tinyUF);
 		assertThat(qu.connected(1,7)).isTrue();
 		assertThat(qu.connected(0,9)).isFalse();
 	}
@@ -95,7 +95,7 @@ class WeightedQuickUnionPathCompressionTest {
 	@Test
 	void unionFindBasedMediumUFFile() throws FileNotFoundException {
 		File mediumUF = new File(FILE_PATH_FOLDER + "/mediumUF.txt");
-		WeightedQuickUnionPathCompression qu = createWeightedQuickUnionFromFile(mediumUF);
+		WeightedQuickUnionBySize qu = createWeightedQuickUnionFromFile(mediumUF);
 		assertThat(qu.connected(486,511)).isTrue();
 		assertThat(qu.connected(0,9)).isFalse();
 	}

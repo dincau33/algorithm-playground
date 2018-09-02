@@ -1,7 +1,7 @@
 package algorithm.dynamic_connectivity;
 
 // Problem: Find whether 2 nodes are connected. It is not required to know the path connecting the 2 nodes.
-public class WeightedQuickUnionPathCompression {
+public class WeightedQuickUnionByHeight {
 
 	// 2 nodes are part of the same component if they have the same root
 	// id[i] represents the parent of node i
@@ -14,7 +14,7 @@ public class WeightedQuickUnionPathCompression {
 	private byte[] size;
 
 	// Time complexity: O(N)
-	public WeightedQuickUnionPathCompression(int N) {
+	public WeightedQuickUnionByHeight(int N) {
 		if (N < 0) throw new IllegalArgumentException();
 		count = N;
 		id = new int[N];
@@ -25,17 +25,16 @@ public class WeightedQuickUnionPathCompression {
 		}
 	}
 
-	// Time complexity: O(log N*) better than log N overtime because of the path compression
+	// Time complexity: O(log N)
 	public int find(int p) {
 		if (p < 0 || p >= count) throw new IllegalArgumentException();
 		while (id[p] != p) {
-			id[p] = id[id[p]]; // path compression by halving
 			p = id[p];
 		}
 		return p;
 	}
 
-	// Time complexity: O(log N*)
+	// Time complexity: O(log N)
 	public void union(int p, int q) {
 		int rootp = find(p);
 		int rootq = find(q);
@@ -50,7 +49,7 @@ public class WeightedQuickUnionPathCompression {
 
 	}
 
-	// Time complexity: O(log N*)
+	// Time complexity: O(log N)
 	public boolean connected(int p, int q) {
 		if (p < 0 || p >= count) throw new IllegalArgumentException();
 		if (q < 0 || q >= count) throw new IllegalArgumentException();
@@ -61,5 +60,4 @@ public class WeightedQuickUnionPathCompression {
 	public int count() {
 		return count;
 	}
-
 }
